@@ -1,9 +1,14 @@
 import SpinLoader from "@/components/SpinLoader";
+import { PostList } from "@/components/PostList";
+import { Suspense } from "react";
 
-export default function HomePage() {
+export default async function HomePage() {
+
   return (
     <div>
-      <SpinLoader />
+      <Suspense fallback={<SpinLoader />}>
+        <PostList />
+      </Suspense>
     </div>
   );
 }

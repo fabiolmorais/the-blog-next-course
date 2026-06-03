@@ -1,14 +1,13 @@
-import { postRepository } from "@/repositories/post";
-import { PostHeading } from "../PostHeading";
+import { findAllPublicPosts } from "@/lib/post/queries";
 import { PostCoverImage } from "../PostCoverImage";
-import { formatDatetime, formatDistanceToNow } from "@/utils/format-datetime";
+import { PostSummary } from "../PostSummary";
 
 export async function PostList() {
-  const posts = await postRepository.findAll();
+  const posts = await findAllPublicPosts();
 
   return (
     <div className="grid grid-cols-1  gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => {
+      {posts.slice(1).map((post) => {
         const postLink = `/post/${post.slug}`;
 
         return (
@@ -26,21 +25,13 @@ export async function PostList() {
               }}
             />
 
-            <div className="flex flex-col gap-4 sm:justify-center">
-              <time
-                className="text-slate-600 block text-sm/tight"
-                dateTime={post.createdAt}
-                title={formatDistanceToNow(post.createdAt)}
-              >
-                {formatDatetime(post.createdAt)}
-              </time>
-
-              <PostHeading as="h2" url={postLink}>
-                {post.title}
-              </PostHeading>
-
-              <p>{post.excerpt}</p>
-            </div>
+            <PostSummary
+              postLink={postLink}
+              postHeading="h2"
+              createdAt={post.createdAt}
+              excerpt={post.excerpt}
+              title={post.title}
+            />
           </div>
         );
       })}

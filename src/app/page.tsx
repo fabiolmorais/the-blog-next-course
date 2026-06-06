@@ -6,11 +6,8 @@ import SpinLoader from "@/components/SpinLoader";
 export default async function HomePage() {
   return (
     <>
-      <Suspense fallback={<SpinLoader />}>
+      <Suspense fallback={<SpinLoader className="min-h-20 mb-16" />}>
         <PostFeatured />
-      </Suspense>
-
-      <Suspense fallback={<SpinLoader />}>
         <PostList />
       </Suspense>
     </>
